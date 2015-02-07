@@ -1,21 +1,4 @@
 *~
-.DS_Store
-
-# Eagle intermediates
-*.epf
-*.b#*
-*.s#*
-
-# Gerbers
-*.GBL
-*.GBO
-*.GBS
-*.GKO
-*.GML
-*.GTL
-*.GTO
-*.GTP
-*.GTS
-*.TXT
-*.dri
-*.gpi
+.DS_Store/
+*.pyc
+__pycache__/

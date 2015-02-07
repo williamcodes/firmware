@@ -1,36 +1,43 @@
-## Heat Seek NYC Hardware
+# Raspberry π
 
 
-### Overview
-
-connect XBee to the π via serial GPIO pins
-
-listen for IO frames, which are of the form 0x7E....92
-
-use a (manually maintained) mapping of 64-bit sensor addresses to apartments, to record apartment temperatures
+## Overview
+- connect XBee to GPIO serial pins directly
+- device is /dev/ttyAMA0
+- then standard python `serial` library can be used
 
 
-### XBee-DigiMesh
+## Basic Setup
+```sh
+sudo raspi-config
+# 1, 2, 4 > Locale, reboot
+sudo raspi-config
+# 4 > Change Timezone, Change Keyboard Layout, 8 > Serial > Off, reboot
 
-Unlike XBee Zigbee, it supports synchronized sleeping, for low-power meshing.
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install usb-modeswitch wvdial supervisor python3-pip vnstat
+sudo pip3 install -Ur requirements.txt
 
-The [chip](http://www.digikey.com/product-detail/en/XB24-DMPIT-250/602-1338-ND/3482610) — this is the same hardware as [XBee Series 1](http://www.digikey.com/product-detail/en/XB24-API-001/602-1273-ND/3482588) but with DigiMesh firmware pre-installed.
+sudo ln -sf /home/pi/pi/conf/wvdial.conf /etc/
+sudo emacs /etc/ppp/peers/wvdial
+# # usepeerdns
+sudo emacs /etc/resolv.conf
+# nameserver 8.8.8.8
+# nameserver 8.8.4.4
+sudo chattr +i /etc/resolv.conf
 
-The [docs](http://ftp1.digi.com/support/documentation/90000991_L.pdf).
+sudo ssh-keygen
+sudo ssh-copy-id hubs@hubs.heatseeknyc.com
 
-Adding a new node is slightly trickier, but if the π node is in "Synchronous Sleep Support Mode" SM=7, then you can just bring a new node near the π at any time and it will sync up with the rest of the sleeping (SM=8) nodes.
-
-
-### Alternatives
-
-#### XBee-Zigbee
-
-Can't both sleep and mesh, but has a better ADC, perhaps among other things.
-
-Make sure to connect VREF to VCC. This is basically undocumented, but without it the chip basically crashes after a minute of reading from the ADC. _TODO_ email Digi about this.
-
-The [chip](http://www.digikey.com/product-detail/en/XB24-Z7PIT-004/602-1275-ND/3482624), aka XBee Series 2.
-
-The [docs](http://ftp1.digi.com/support/documentation/90000976_S.pdf)
+sudo ln -s /home/pi/pi/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
+sudo supervisorctl reload
+```
 
 
+## (Optional) Direct Ethernet Connection to a Computer
+**remove this when you're done, or things will misbehave**
+```sh
+emacs /Volumes/boot/cmdline.txt
+# ip=169.254.169.254
+```
