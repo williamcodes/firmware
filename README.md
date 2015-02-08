@@ -1,11 +1,9 @@
 # Raspberry π
 
-
 ## Overview
 - connect XBee to GPIO serial pins directly
 - device is /dev/ttyAMA0
 - then standard python `serial` library can be used
-
 
 ## Basic Setup
 ```sh
@@ -34,10 +32,27 @@ sudo ln -s /home/pi/pi/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.c
 sudo supervisorctl reload
 ```
 
-
 ## (Optional) Direct Ethernet Connection to a Computer
 **remove this when you're done, or things will misbehave**
 ```sh
 emacs /Volumes/boot/cmdline.txt
 # ip=169.254.169.254
 ```
+
+# DigiMesh Firmware
+
+## Cell
+- **ID** = 311
+- **D0** = 2
+- **D9** = 1
+- **D*** = 0
+- **PR** = 80 *will use 0 for cell≥v0.4, where DIN/!CONFIG is grounded*
+- **IR** = FFFF
+- **SM** = 8
+
+## Hub
+- **ID** = 311
+- **AP** = 1
+- **SM** = 7
+- **SO** = 1 *TODO change to zero, in case multiple hubs see each other?*
+- **SP** = 1770 (1 minute) or 57E40 (1 hour)
