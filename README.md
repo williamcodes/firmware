@@ -42,7 +42,7 @@ emacs /Volumes/boot/cmdline.txt
 # DigiMesh Firmware
 
 ## Cell
-- **ID** = 311
+- **ID** = DADA
 - **D0** = 2
 - **D9** = 1
 - **D*** = 0
@@ -51,7 +51,7 @@ emacs /Volumes/boot/cmdline.txt
 - **SM** = 8
 
 ## Hub
-- **ID** = 311
+- **ID** = DADA
 - **AP** = 1
 - **SM** = 7
 - **SO** = 1 *TODO change to zero, in case multiple hubs see each other?*
