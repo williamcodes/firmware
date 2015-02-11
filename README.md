@@ -42,17 +42,18 @@ emacs /Volumes/boot/cmdline.txt
 # DigiMesh Firmware
 
 ## Cell
-- **ID** = DADA
 - **D0** = 2
-- **D9** = 1
-- **D*** = 0
-- **PR** = 80 *will use 0 for cell≥v0.4, where DIN/!CONFIG is grounded*
+- **D5** = 0
+- **D7** = 0
+- **D8** = 0
+- **P0** = 0
+- **PR** = 80 *TODO in the future we'll use 0 for cell≥v0.4, when DIN/!CONFIG is grounded*
 - **IR** = FFFF
 - **SM** = 8
 
 ## Hub
-- **ID** = DADA
 - **AP** = 1
 - **SM** = 7
-- **SO** = 1 *TODO change to zero, in case multiple hubs see each other?*
-- **SP** = 1770 (1 minute) or 57E40 (1 hour)
+- **SO** = 1
+- **SP** = 1 *thence 57C4C (59m55s)* *(note 1770 = 1m)*
+- **ST** = EA60 (1m) *thence 1388 (5s)* *(note default is 7D0 = 2s)*
