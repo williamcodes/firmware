@@ -44,7 +44,7 @@ sudo pip-3.2 install -Ur requirements.txt
 sudo ssh-keygen
 sudo ssh-copy-id hubs@hubs.heatseeknyc.com
 
-sudo ln -sf /home/pi/pi/conf/wvdial.conf /etc/
+sudo ln -sf $PWD/conf/wvdial.conf /etc/
 sudo nano /etc/ppp/peers/wvdial
 # # usepeerdns
 sudo nano /etc/resolv.conf
@@ -52,7 +52,7 @@ sudo nano /etc/resolv.conf
 # nameserver 8.8.4.4
 sudo chattr +i /etc/resolv.conf
 
-sudo ln -s /home/pi/pi/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
+sudo ln -s $PWD/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
 sudo supervisorctl reload
 ```
 
