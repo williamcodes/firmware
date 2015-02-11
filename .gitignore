@@ -2,3 +2,6 @@
 .DS_Store/
 *.pyc
 __pycache__/
+
+# don't commit updated database:
+/heatseeknyc.db
