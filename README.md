@@ -39,7 +39,7 @@ sudo apt-get install usb-modeswitch wvdial supervisor python3-pip vnstat
 git clone https://github.com/heatseeknyc/firmware.git
 cd firmware
 
-sudo pip3 install -Ur requirements.txt
+sudo pip-3.2 install -Ur requirements.txt
 
 sudo ssh-keygen
 sudo ssh-copy-id hubs@hubs.heatseeknyc.com
