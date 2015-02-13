@@ -5,6 +5,12 @@ import sqlite3
 import time
 
 
+def checksum(frame):
+    checksum = 0
+    for byte in frame:
+        checksum = (checksum + byte) & 0xFF
+    return checksum
+
 def forever(f):
     @functools.wraps(f)
     def g(*args, **kwargs):

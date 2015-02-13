@@ -17,9 +17,7 @@ def listen(xbee, db):
 
     frame = xbee.read(length + 1) # frame plus checksum byte
 
-    checksum = 0
-    for byte in frame:
-        checksum = (checksum + byte) & 0xFF
+    checksum = common.checksum(frame)
     if checksum != 0xFF:
         raise Exception('expected frame plus checksum to be 0xFF but got {:02X}'.format(checksum))
 
