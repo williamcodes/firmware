@@ -28,9 +28,7 @@
 ## Basic Setup
 ```sh
 sudo raspi-config
-# 1, 2, 4 > Locale, reboot
-sudo raspi-config
-# 4 > Change Timezone, 8 > Serial > Off, reboot
+# 1, 2, 4 > Locale, 4 > Change Timezone, 8 > Serial > Off, reboot
 
 sudo apt-get update
 sudo apt-get upgrade
