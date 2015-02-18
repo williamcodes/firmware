@@ -6,7 +6,7 @@ import requests
 from . import common
 
 
-READINGS_URI = 'http://hubs.heatseeknyc.com/readings'
+READINGS_URI = 'http://relay.heatseeknyc.com/readings'
 
 
 def transmit(db):

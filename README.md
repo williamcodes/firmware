@@ -40,7 +40,7 @@ cd firmware
 sudo pip-3.2 install -Ur requirements.txt
 
 sudo ssh-keygen
-sudo ssh-copy-id hubs@hubs.heatseeknyc.com
+sudo ssh-copy-id hubs@relay.heatseeknyc.com
 
 sudo ln -sf $PWD/conf/wvdial.conf /etc/
 sudo nano /etc/ppp/peers/wvdial
