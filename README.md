@@ -32,7 +32,7 @@ sudo raspi-config
 
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install usb-modeswitch wvdial supervisor python3-pip vnstat
+sudo apt-get install usb-modeswitch wvdial supervisor python3-pip vnstat screen
 
 git clone https://github.com/heatseeknyc/firmware.git
 cd firmware
