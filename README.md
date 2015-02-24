@@ -27,31 +27,7 @@
 
 ## Basic Setup
 ```sh
-sudo raspi-config
-# 1, 2, 4 > Locale, 4 > Change Timezone, 8 > Serial > Off, reboot
-
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install usb-modeswitch wvdial supervisor python3-pip vnstat screen
-
-git clone https://github.com/heatseeknyc/firmware.git
-cd firmware
-
-sudo pip-3.2 install -Ur requirements.txt
-
-sudo ssh-keygen
-sudo ssh-copy-id hubs@relay.heatseeknyc.com
-
-sudo ln -sf $PWD/conf/wvdial.conf /etc/
-sudo nano /etc/ppp/peers/wvdial
-# # usepeerdns
-sudo nano /etc/resolv.conf
-# nameserver 8.8.8.8
-# nameserver 8.8.4.4
-sudo chattr +i /etc/resolv.conf
-
-sudo ln -s $PWD/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
-sudo supervisorctl reload
+bash setup.sh
 ```
 
 ## (Optional) Direct Ethernet Connection to a Computer
