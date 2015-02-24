@@ -7,6 +7,7 @@ fi
 
 sudo awk '$1 == "Serial" { print $3 }' /proc/cpuinfo | tee /etc/hostname
 sudo sed -i "s/raspberrypi/$(cat /etc/hostname)/" /etc/hosts
+sudo /etc/init.d/hostname.sh
 
 sudo apt-get update
 sudo apt-get -y upgrade
