@@ -15,7 +15,7 @@
 - **SM** = 7
 - **SO** = 1
 - **SP** = 1 *thence 57A58 (59m50s)*
-- **ST** = 2710 (10s) *(note default is 7D0 = 2s)*
+- **ST** = 2710 (10s)
 
 
 # Raspberry π "Firmware" aka "Heat Seek OS"
