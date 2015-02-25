@@ -5,7 +5,7 @@ then read -p "Configure options 1, 2, 4 > Locale, 4 > Change Timezone, and 8 > S
      sudo reboot
 fi
 
-sudo awk '$1 == "Serial" { print $3 }' /proc/cpuinfo | tee /etc/hostname
+awk '/^Serial\t/ { print $3 }' /proc/cpuinfo | sudo tee /etc/hostname
 sudo sed -i "s/raspberrypi/$(cat /etc/hostname)/" /etc/hosts
 sudo /etc/init.d/hostname.sh
 
