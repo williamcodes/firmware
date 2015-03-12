@@ -10,7 +10,8 @@ do
     for _ in $(seq 10)
     do NEWPORT=$(supervisorctl tail ssh | awk '/^Allocated port / { print $3 }' | tail -1)
 	if [ "$NEWPORT" != "$PORT" ]
-	then break
+	then echo "port changed from $PORT to $NEWPORT"
+	     break
 	fi
 	sleep 60
     done
