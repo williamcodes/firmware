@@ -1,9 +1,17 @@
+if [ "$PWD" != "/home/pi/firmware" ]
+then echo This file must be located in /home/pi/firmware
+     exit
+fi
+
 read -p "Have you already run raspi-config? [yN]" yn
 if [ "$yn" != "y" ]
-then read -p "Configure options 1, 2, 4 > Locale, 4 > Change Timezone, and 8 > Serial > Off.\nPress enter to begin."
+then read -p $'Configure options 1, 2, 4 > Locale, 4 > Change Timezone, and 8 > Serial > Off.\nPress enter to begin.'
      sudo raspi-config
      sudo reboot
+     exit
 fi
+
+set -ex
 
 awk '/^Serial\t/ { print $3 }' /proc/cpuinfo | sudo tee /etc/hostname
 sudo sed -i "s/raspberrypi/$(cat /etc/hostname)/" /etc/hosts
@@ -12,9 +20,6 @@ sudo /etc/init.d/hostname.sh
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat screen
-
-git clone https://github.com/heatseeknyc/firmware.git
-cd firmware
 
 sudo pip-3.2 install -Ur requirements.txt
 
