@@ -12,8 +12,8 @@ def send(command, xbee):
     xbee.write(frame)
     print('sent')
 
-def main(device='/dev/ttyAMA0'):
-    with serial.Serial(device) as xbee:
+def main():
+    with serial.Serial('/dev/ttyAMA0') as xbee:
         logging.info('connected to xbee.')
 
         send(b'\x081AG\xFF\xFF', xbee)
@@ -22,4 +22,4 @@ def main(device='/dev/ttyAMA0'):
 
 if __name__ == '__main__':
     logging.info('starting...')
-    main(sys.argv[1])
+    main()
