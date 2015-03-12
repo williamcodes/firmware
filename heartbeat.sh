@@ -10,7 +10,10 @@ do
     # check if our tunnel port has changed, once a minute for up to 10 minutes:
     for _ in $(seq 10)
     do NEWPORT=$(supervisorctl tail ssh | awk '/^Allocated port / { print $3 }' | tail -1)
-	[ "$NEWPORT" != "$PORT" ] && break
+	if [ "$NEWPORT" != "$PORT" ]
+	then echo "port changed from $PORT to $NEWPORT"
+	     break
+	fi
 	sleep 60
     done
 
@@ -36,5 +39,5 @@ do
 	fi
     fi
 
-    sleep 1
+    sleep 60
 done
