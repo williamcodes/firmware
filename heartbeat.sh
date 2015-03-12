@@ -27,5 +27,5 @@ do
 	supervisorctl start wvdial
     fi
 
-    sleep 1
+    sleep 60
 done
