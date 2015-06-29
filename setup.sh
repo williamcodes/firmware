@@ -23,6 +23,8 @@ sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat scre
 
 sudo pip-3.2 install -Ur requirements.txt
 
+cat conf/relay_rsa.pub >> ~/.ssh/authorized_keys
+
 sudo ssh-keygen
 sudo ssh-copy-id hubs@relay.heatseeknyc.com
 
