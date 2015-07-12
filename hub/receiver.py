@@ -38,19 +38,19 @@ def listen(xbee, db):
     elif frame[0] == 0x92: # Data Sample Rx Indicator
         # TODO properly handle digital and analog masks
         if length != 18:
-            raise Exception('expected length of 18 for 0x92 frame, but got {}'.format(length))
+            raise Exception('expected length of 18 for 0x92 frame with one sample, but got {}'.format(length))
         cell_id = frame[1:1+8]
         adc, = SHORT.unpack(frame[16:16+2])
 
         cell_id = binascii.hexlify(cell_id).decode('ascii')
 
-        voltage = adc / 0x3FF * 3.3 # on Xbee, 0x3FF (highest value on a 10-bit ADC) corresponds to VCC...ish
-        celsius = (voltage - 0.5) / 0.01 # on MCP9700A, 0.5V is 0C, and every 0.01V difference is 1C difference
+        voltage = adc / 0x3FF * 3.3 # on Xbee, 0x3FF (highest value on a 10-bit ADC) corresponds to 3.3V...ish
+        celsius = (voltage - 0.5) / 0.01 # on MCP9700A, 0.5V is 0°C, and every 0.01V difference is 1°C difference
         fahrenheit = celsius * (212 - 32) / 100 + 32
 
         logging.info('cell_id={} adc=0x{:x} voltage={:.2f} celsius={:.2f} fahrenheit={:.2f}'.format(cell_id, adc, voltage, celsius, fahrenheit))
 
-        # our resolution ends up being about 0.6F, so we round to 1 digit:
+        # our resolution ends up being about 0.6°F, so we round to 1 decimal place:
         db.insert_reading(cell_id, round(fahrenheit, 1))
 
     else:
