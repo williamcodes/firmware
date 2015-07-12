@@ -1,5 +1,5 @@
 import binascii
-import logging; logging.basicConfig(level=logging.INFO)
+import logging
 from struct import Struct
 
 import serial
@@ -7,8 +7,11 @@ import serial
 from . import common, database
 
 
+logging.basicConfig(level=logging.INFO)
+
 SHORT = Struct('>H') # big endian unsigned short
 INT = Struct('>I') # big endian unsigned int
+
 
 def listen(xbee, db):
     while xbee.read(1) != b'\x7E':

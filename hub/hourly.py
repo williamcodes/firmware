@@ -1,10 +1,9 @@
 import logging
-import sys
-import time
 
 import serial
 
 from . import common
+
 
 def send(command, xbee):
     frame = b'\x7E' + bytes([0, len(command)]) + command + bytes([0xFF - common.checksum(command)])

@@ -6,8 +6,7 @@ PI_ID=$(awk '/^Serial\t/ { print $3 }' /proc/cpuinfo)
 PORT=""
 FAILURES=0
 while true
-do
-    # check if our tunnel port has changed, once a minute for up to 10 minutes:
+do  # check if our tunnel port has changed, once a minute for up to 10 minutes:
     for _ in $(seq 10)
     do NEWPORT=$(supervisorctl tail ssh | awk '/^Allocated port / { print $3 }' | tail -1)
 	if [ "$NEWPORT" != "$PORT" ]

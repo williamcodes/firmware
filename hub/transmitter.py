@@ -1,10 +1,12 @@
-import logging; logging.basicConfig(level=logging.INFO)
+import logging
 import time
 
 import requests
 
 from . import common, database
 
+
+logging.basicConfig(level=logging.INFO)
 
 READINGS_URI = 'http://relay.heatseeknyc.com/readings'
 
