@@ -4,7 +4,7 @@ from struct import Struct
 
 import serial
 
-from . import common
+from . import common, database
 
 
 SHORT = Struct('>H') # big endian unsigned short
@@ -40,7 +40,7 @@ def listen(xbee, db):
 
 @common.forever
 def main():
-    with serial.Serial('/dev/ttyAMA0') as xbee, common.Database() as db:
+    with serial.Serial('/dev/ttyAMA0') as xbee, database.Database() as db:
         logging.info('connected to xbee and database.')
         while True:
             listen(xbee, db)

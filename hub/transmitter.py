@@ -3,7 +3,7 @@ import time
 
 import requests
 
-from . import common
+from . import common, database
 
 
 READINGS_URI = 'http://relay.heatseeknyc.com/readings'
@@ -20,7 +20,7 @@ def transmit(db):
 
 @common.forever
 def main():
-    with common.Database() as db:
+    with database.Database() as db:
         logging.info('connected to database.')
         while True:
             transmit(db)
