@@ -5,7 +5,7 @@ import sqlite3
 
 class Database:
     def __enter__(self):
-        self.db = sqlite3.connect('heatseeknyc.db')
+        self.db = sqlite3.connect('/home/pi/heatseeknyc.db')
         self.db.__enter__()
         return _Database(self.db)
 
