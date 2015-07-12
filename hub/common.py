@@ -5,10 +5,10 @@ import time
 
 
 def checksum(frame):
-    checksum = 0
+    s = 0
     for byte in frame:
-        checksum = (checksum + byte) & 0xFF
-    return checksum
+        s = (s + byte) & 0xFF
+    return s
 
 def forever(f):
     @functools.wraps(f)
