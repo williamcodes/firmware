@@ -31,6 +31,12 @@ class _Database:
         with self.db as db:
             db.execute('update transmitted set reading_id = ?', (reading_id,))
 
+    def get_xbee_id(self):
+        with self.db as db:
+            (high, low), = db.execute('select high, low from xbee_id')
+        if high and low:
+            return high + low
+
     def set_xbee_id(self, type, id):
         with self.db as db:
-            db.execute('update xbee_id set {} = ?'.format(type), (id,))
+            db.execute('update xbee_id set {} = ?'.format(type), (hex(id),))

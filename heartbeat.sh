@@ -1,10 +1,11 @@
 
-PI_ID=$(awk '/^Serial\t/ { print $3 }' /proc/cpuinfo)
+PI_ID=$(python3 -m hub.get_pi_id)
 
 # TODO vnstat -i ppp0 --oneline
 
 function get_xbee_id {
     # query SH and SL. receiver.py should receive the response and write to db:
+    # (thus note that even if id is already in db, this refreshes it)
     python3 -m hub.request_xbee_id
     sleep 6
     XBEE_ID=$(python3 -m hub.get_xbee_id)

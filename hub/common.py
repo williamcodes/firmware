@@ -27,11 +27,11 @@ def main(f):
         f()
     return f
 
-
-_PI_ID_RE = re.compile(r'^Serial\s*: (\w*)')
-def _get_pi_id():
+_PI_ID_RE = re.compile(r'^Serial\s*: (\w+)')
+def get_pi_id():
     with open('/proc/cpuinfo') as f:
         for line in f:
-            found = _PI_ID_RE.findall(line)
-            if found: return found[0]
-PI_ID = _get_pi_id() or 'unknown'
+            groups = _PI_ID_RE.findall(line)
+            if groups:
+                return groups[0]
+    raise Exception('no Serial in /proc/cpuinfo')

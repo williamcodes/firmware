@@ -9,11 +9,11 @@ from . import common, database
 logging.basicConfig(level=logging.INFO)
 
 READINGS_URI = 'http://relay.heatseeknyc.com/readings'
-
+PI_ID = common.get_pi_id()
 
 def transmit(db):
     for reading_id, cell_id, timestamp, temperature in db.get_untransmitted_readings():
-        data = dict(hub=common.PI_ID, cell=cell_id, time=timestamp, temp=temperature)
+        data = dict(hub=PI_ID, cell=cell_id, time=timestamp, temp=temperature)
         logging.info(data)
         response = requests.post(READINGS_URI, data)
         if response.status_code != 200: raise Exception('bad response: {}'.format(response))
