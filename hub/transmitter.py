@@ -18,6 +18,7 @@ def transmit(db):
         db.set_transmitted_readings(reading_id)
         time.sleep(1)
 
+@common.main
 @common.forever
 def main():
     with database.Database() as db:
@@ -25,7 +26,3 @@ def main():
         while True:
             transmit(db)
             time.sleep(1)
-
-if __name__ == '__main__':
-    logging.info('starting...')
-    main()

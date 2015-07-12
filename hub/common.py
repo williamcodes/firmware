@@ -21,6 +21,13 @@ def forever(f):
                 time.sleep(1)
     return g
 
+def main(f):
+    if f.__module__ == '__main__':
+        logging.info('starting...')
+        f()
+    return f
+
+
 _PI_ID_RE = re.compile(r'^Serial\s*: (\w*)')
 def _get_pi_id():
     with open('/proc/cpuinfo') as f:

@@ -56,13 +56,10 @@ def listen(xbee, db):
     else:
         logging.warn('unexpected frame type {:02X}'.format(frame[0]))
 
+@common.main
 @common.forever
 def main():
     with serial.Serial('/dev/ttyAMA0') as xbee, database.Database() as db:
         logging.info('connected to xbee and database.')
         while True:
             listen(xbee, db)
-
-if __name__ == '__main__':
-    logging.info('starting...')
-    main()

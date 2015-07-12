@@ -12,14 +12,12 @@ def send(command, xbee):
     xbee.write(frame)
     print('sent')
 
+@common.main
 def main():
     with serial.Serial('/dev/ttyAMA0') as xbee:
         logging.info('connected to xbee.')
 
-        send(b'\x081AG\xFF\xFF', xbee)
-        time.sleep(1)
-        send(b'\x082SP\x05\x7A\x58', xbee)
+        send(b'\x08xAG\xFF\xFF', xbee)
 
-if __name__ == '__main__':
-    logging.info('starting...')
-    main()
+        send(b'\x08xSP\x05\x7A\x58', xbee)
+        send(b'\x08xWR', xbee)
