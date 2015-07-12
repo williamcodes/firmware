@@ -30,3 +30,7 @@ class _Database:
     def set_transmitted_readings(self, reading_id):
         with self.db as db:
             db.execute('update transmitted set reading_id = ?', (reading_id,))
+
+    def set_xbee_id(self, type, id):
+        with self.db as db:
+            db.execute('update xbee_id set {} = ?'.format(type), (id,))

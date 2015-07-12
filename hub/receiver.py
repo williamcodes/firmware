@@ -8,6 +8,7 @@ from . import common, database
 
 
 SHORT = Struct('>H') # big endian unsigned short
+INT = Struct('>I') # big endian unsigned int
 
 def listen(xbee, db):
     while xbee.read(1) != b'\x7E':
@@ -21,7 +22,21 @@ def listen(xbee, db):
     if checksum != 0xFF:
         raise Exception('expected frame plus checksum to be 0xFF but got {:02X}'.format(checksum))
 
-    if frame[0] == 0x92: # IO Data Sample RX
+    if frame[0] == 0x88: # AT Command Response
+        command = frame[2:2+2]
+        status = frame[4]
+        data = frame[5:length-1]
+
+        if status != 0:
+            logging.warn('AT{} failed with status {}'.format(command, status))
+        elif command in (b'SH', b'SL'):
+            if len(data) != 4:
+                raise Exception('AT{} response should be 4 bytes, but was {}'.format(command, len(data)))
+            xbee_id, = INT.unpack(data)
+            db.set_xbee_id('high' if command == b'SH' else 'low', xbee_id)
+
+    elif frame[0] == 0x92: # Data Sample Rx Indicator
+        # TODO properly handle digital and analog masks
         if length != 18:
             raise Exception('expected length of 18 for 0x92 frame, but got {}'.format(length))
         cell_id = frame[1:1+8]
@@ -37,6 +52,9 @@ def listen(xbee, db):
 
         # our resolution ends up being about 0.6F, so we round to 1 digit:
         db.insert_reading(cell_id, round(fahrenheit, 1))
+
+    else:
+        logging.warn('unexpected frame type {:02X}'.format(frame[0]))
 
 @common.forever
 def main():
