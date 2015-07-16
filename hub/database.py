@@ -39,4 +39,4 @@ class _Database:
 
     def set_xbee_id(self, type, id):
         with self.db as db:
-            db.execute('update xbee_id set {} = ?'.format(type), (hex(id),))
+            db.execute('update xbee_id set {} = ?'.format(type), (id,))

@@ -1,3 +1,4 @@
+import binascii
 import logging
 import time
 
@@ -13,6 +14,7 @@ PI_ID = common.get_pi_id()
 
 def transmit(db):
     for reading_id, cell_id, timestamp, temperature in db.get_untransmitted_readings():
+        cell_id = binascii.hexlify(cell_id).decode('ascii')
         data = dict(hub=PI_ID, cell=cell_id, time=timestamp, temp=temperature)
         logging.info(data)
         response = requests.post(READINGS_URI, data)
