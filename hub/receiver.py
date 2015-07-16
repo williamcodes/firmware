@@ -33,8 +33,10 @@ def listen(xbee, db):
             logging.warn('AT{} failed with status {}'.format(command, status))
         elif command in (b'SH', b'SL'):
             if len(data) != 4:
-                raise Exception('AT{} response should be 4 bytes, but was {}'.format(command, len(data)))
+                raise Exception('AT{} response should be 4 bytes, but was {}'.format(command, repr(data)))
             db.set_xbee_id('high' if command == b'SH' else 'low', data)
+        else:
+            logging.info('unhandled AT{} response'.format(command))
 
     elif frame[0] == 0x92: # Data Sample Rx Indicator
         # TODO properly handle digital and analog masks
