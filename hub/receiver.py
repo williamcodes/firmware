@@ -28,7 +28,7 @@ def listen(xbee, db):
     if frame[0] == 0x88: # AT Command Response
         command = frame[2:2+2]
         status = frame[4]
-        data = frame[5:length-1]
+        data = frame[5:length]
 
         if status != 0:
             logging.warn('AT{} failed with status {}'.format(command, status))
