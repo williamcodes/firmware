@@ -7,7 +7,6 @@
 - SD card
 - SD card adapter (lets you put the SD card into a computer to copy Raspbian to it)
 - USB-to-Ethernet adapter. [This one](http://www.amazon.com/Cable-Matters%C2%AE-SuperSpeed-Gigabit-Ethernet/dp/B00BBD7NFU) works. Others, including a Gigaware one I tried, may not.
-- 
 
 ## Steps
 1. Download the [latest Raspbian](http://downloads.raspberrypi.org/raspbian_latest)
