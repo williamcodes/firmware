@@ -43,14 +43,8 @@ do
     elif ! ping -c 1 google.com
     then # internet is down :'(
 	echo "$((++FAILURES)) failures in a row!"
-	if [ $FAILURES -lt 36 ] # 6*6*10 minutes = 6 hours
-	then # try to fix it
-	    supervisorctl stop wvdial
-	    killall wvdial
-	    usb_modeswitch -I -W -D -s 20 -u -1 -v 12d1 -p 1446 -c conf/usb_modeswitch.conf
-	    sleep 5
-	    supervisorctl start wvdial
-	else # give up and try rebooting...
+	if [ $FAILURES -ge 36 ] # 6*6*10 minutes = 6 hours
+	then # give up and try rebooting...
 	    reboot
 	    exit
 	fi
