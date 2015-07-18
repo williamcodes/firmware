@@ -12,7 +12,7 @@
 ## Steps
 1. Download the [latest Raspbian](http://downloads.raspberrypi.org/raspbian_latest)
 1. Extract the .zip archive to get the .img file.
-1. Copy it to the SD card. On a Mac, you do `diskutil list` to see which device is the SD card (for me it's always `/dev/disk2`, then `diskutil unmountDisk /dev/disk2` (or whatever device yours is), and finally `sudo dd bs=1m if=2015-05-05-raspbian-wheezy.img of=/dev/disk2` (or whatever Raspbian and disk you have). The final command takes about half an hour.
+1. Copy it to the SD card. On a Mac, you do `diskutil list` to see which device is the SD card (for me it's always `/dev/disk2`), then `diskutil unmountDisk /dev/disk2` (or whatever device yours is), and finally `sudo dd bs=1m if=2015-05-05-raspbian-wheezy.img of=/dev/disk2` (or whatever Raspbian and disk you have). The final command takes about half an hour.
 1. Eject the SD card, with Command+E in the Finder.
 1. Put the SD card in the π, connect the USB-to-ethernet adapter from the π to your router, and plug in the π!
 1. On a computer, try `ssh pi@raspberrypi.local`. If that doesn't work, run `nmap -p 22 --open 192.168.1.0/24` (with whatever your router's IP address range is) to find the ip address, and then run `ssh pi@192.168.1.108` (with the IP address you found). The password is 'raspberry'.
