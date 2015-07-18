@@ -22,6 +22,11 @@
 1. Go to http://relay.heatseeknyc.com and enter the hub's XBee id (e.g. `0013a20040c17e5a`) and you should be able to see some info.
 1. If you put batteries in cells their readings should start showing up on the Relay site. Though this all depends on the XBees having the correct settings, see "DigiMesh Firmware" below for those settings, which can be changed programatically from the π if you know what you're doing (see `hub/hourly.py` for an example) or can be changed with Digi's xctung software on your Mac using a [dongle](https://www.sparkfun.com/products/11697)
 
+## Debugging
+1. If the modem is solid blue, then ideally you'll be able to access the hub's page on http://relay.heatseeknyc.com, where you can find its current "reverse SSH port", as the last number in the "Status Log" section.
+1. Once you have that port, then you can SSH into the π by first SSH'ing into relay.heatseeknyc.com, and then from there running `ssh -p <port> localhost` (replacing <port> with the latest port number from the Status Log)
+1. Once you're SSH'ed into the π, you can look at logs of any of the processes listed in `conf/sueprvisor.conf` with a command like `sudo supervisorctl tail -f 3g`
+
 ## (Optional) Direct Ethernet Connection to a Computer
 If you can't connect to a router, or something running a DHCP server, then you may need to use a fixed IP address:
 **remove this when you're done, or things will misbehave**
