@@ -13,10 +13,6 @@ fi
 
 set -ex
 
-awk '/^Serial\t/ { print $3 }' /proc/cpuinfo | sudo tee /etc/hostname
-sudo sed -i "s/raspberrypi/$(cat /etc/hostname)/" /etc/hosts
-sudo /etc/init.d/hostname.sh
-
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat screen
@@ -26,7 +22,7 @@ sudo pip-3.2 install -Ur requirements.txt
 mkdir -p ~/.ssh
 cat conf/relay_rsa.pub >> ~/.ssh/authorized_keys
 
-sudo ssh-keygen
+sudo ssh-keygen # TODO how to statically build this in to Heat Seek OS without compromising relay server?
 sudo ssh-copy-id hubs@relay.heatseeknyc.com
 
 sudo ln -sf $PWD/conf/wvdial.conf /etc/
