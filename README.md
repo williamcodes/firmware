@@ -24,7 +24,7 @@
 
 ## Debugging
 1. If the modem is solid blue, then ideally you'll be able to access the hub's page on http://relay.heatseeknyc.com, where you can find its current "reverse SSH port", as the last number in the "Status Log" section.
-1. Once you have that port, then you can SSH into the π by first SSH'ing into relay.heatseeknyc.com, and then from there running `ssh -p <port> localhost` (replacing <port> with the latest port number from the Status Log)
+1. Once you have that port, then you can SSH into the π by first SSH'ing into relay.heatseeknyc.com, and then from there running `ssh -p <port> localhost` (replacing `<port>` with the latest port number from the Status Log)
 1. Once you're SSH'ed into the π, you can look at logs of any of the processes listed in `conf/sueprvisor.conf` with a command like `sudo supervisorctl tail -f 3g`
 
 ## (Optional) Direct Ethernet Connection to a Computer
