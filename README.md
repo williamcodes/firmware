@@ -33,6 +33,15 @@ If you can't connect to a router, or something running a DHCP server, then you m
 On your Mac, with the SD card inserted, edit /Volumes/boot/cmdline.txt to set `ip=169.254.169.254`
 
 
+# How to set up an XBee from the π
+1. Turn off and unplug the hub before plugging in a different XBee chip.
+1. Make sure nothing is talking to the XBee serial port. In particular, run `sudo supervisorctl stop receiver`
+1. Connect to the XBEE over serial, with `sudo screen /dev/ttyAMA0`
+1. Enter *command mode*, by typing `+++` and waiting to receive `OK`
+1. Restore the XBee to factory defaults, by typing `ATRE`, pressing return, and waiting to receive `OK`
+1. Set each parameter from "DigiMesh Firmware" below. For example if you are setting up a Cell, type `ATD02`, press return, wait for `OK`, type `ATD50`, press return, wait for `OK`, et cetera…
+1. Make the changes permanent by writing to flash, by typing `ATWR`, pressing return, and waiting for `OK`.
+
 # DigiMesh Firmware
 
 ## Cell
