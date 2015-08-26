@@ -30,7 +30,7 @@ do
     # port has changed or 10 minutes have passed, so time to send a heartbeat:
     # TODO this should be a PUT or PATCH to /hubs/$XBEE_ID
     echo "posting hub=$XBEE_ID&pi=$PI_ID&port=$NEWPORT..."
-    if curl -sS -d "hub=$PI_ID" -d "xbee=$XBEE_ID" -d "port=$NEWPORT" http://relay.heatseeknyc.com/hubs
+    if curl -sS -d "hub=$XBEE_ID" -d "pi=$PI_ID" -d "port=$NEWPORT" http://relay.heatseeknyc.com/hubs
     then
         echo # server response often has no newline
 	PORT="$NEWPORT"
