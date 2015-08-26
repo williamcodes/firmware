@@ -1,6 +1,3 @@
-
-import binascii
-
 from . import common, database
 
 
@@ -10,4 +7,4 @@ def main():
         xbee_id = db.get_xbee_id()
 
     if xbee_id:
-        print(binascii.hexlify(xbee_id).decode('ascii'))
+        print(common.hexlify(xbee_id))

@@ -1,8 +1,11 @@
+import binascii
 import functools
 import logging
-import re
 import time
 
+
+def hexlify(bites):
+    return binascii.hexlify(bites).decode('ascii')
 
 def checksum(frame):
     s = 0
@@ -26,12 +29,3 @@ def main(f):
         logging.info('starting...')
         f()
     return f
-
-_PI_ID_RE = re.compile(r'^Serial\s*: (\w+)')
-def get_pi_id():
-    with open('/proc/cpuinfo') as f:
-        for line in f:
-            groups = _PI_ID_RE.findall(line)
-            if groups:
-                return groups[0]
-    raise Exception('no Serial in /proc/cpuinfo')
