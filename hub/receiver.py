@@ -33,15 +33,18 @@ def listen(xbee, db):
             logging.warn('AT{} failed with status {}'.format(command, status))
         elif command in (b'SH', b'SL'):
             if len(data) != 4:
-                raise Exception('AT{} response should be 4 bytes, but was {}'.format(command, repr(data)))
-            db.set_xbee_id('high' if command == b'SH' else 'low', data)
+                raise Exception('AT{} response should be 4 bytes, but was {}'
+                                .format(command, repr(data)))
+            if command == b'SH': db.set_xbee_id_high(data)
+            else: db.set_xbee_id_low(data)
         else:
             logging.info('unhandled AT{} response'.format(command))
 
     elif frame[0] == 0x92: # Data Sample Rx Indicator
         # TODO properly handle digital and analog masks
         if length != 18:
-            raise Exception('expected length of 18 for 0x92 frame with one sample, but got {}'.format(length))
+            raise Exception('expected length of 18 for 0x92 frame with one sample, but got {}'
+                            .format(length))
         cell_id = frame[1:1+8]
         adc, = SHORT.unpack(frame[16:16+2])
 
@@ -49,7 +52,8 @@ def listen(xbee, db):
         celsius = (voltage - 0.5) / 0.01 # on MCP9700A, 0.5V is 0°C, and every 0.01V difference is 1°C difference
         fahrenheit = celsius * (212 - 32) / 100 + 32
 
-        logging.info('cell_id={} adc=0x{:x} voltage={:.2f} celsius={:.2f} fahrenheit={:.2f}'.format(cell_id, adc, voltage, celsius, fahrenheit))
+        logging.info('cell_id={} adc=0x{:x} voltage={:.2f} celsius={:.2f} fahrenheit={:.2f}'
+                     .format(cell_id, adc, voltage, celsius, fahrenheit))
 
         # our resolution ends up being about 0.6°F, so we round to 1 decimal place:
         db.insert_reading(cell_id, round(fahrenheit, 1))

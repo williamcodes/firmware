@@ -2,7 +2,7 @@ import logging
 
 import serial
 
-from . import common
+from . import common, database
 
 
 def send(command, xbee):
@@ -13,8 +13,11 @@ def send(command, xbee):
 
 @common.main
 def main():
+    with database.Database() as db:
+        logging.info('connected to database.')
+        db.unset_xbee_id()
+
     with serial.Serial('/dev/ttyAMA0') as xbee:
         logging.info('connected to xbee.')
-
         send(b'\x08xSH', xbee)
         send(b'\x08xSL', xbee)

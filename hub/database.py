@@ -37,6 +37,14 @@ class _Database:
         if high and low:
             return high + low
 
-    def set_xbee_id(self, type, id):
+    def unset_xbee_id(self):
         with self.db as db:
-            db.execute('update xbee_id set {} = ?'.format(type), (id,))
+            db.execute('update xbee_id set high = null, low = null')
+
+    def set_xbee_id_high(self, high):
+        with self.db as db:
+            db.execute('update xbee_id set high = ?', (high,))
+
+    def set_xbee_id_low(self, low):
+        with self.db as db:
+            db.execute('update xbee_id set low = ?', (low,))
