@@ -17,6 +17,8 @@ sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat screen
 
+sudo vnstat -u -i ppp0  # start vnstat listening on ppp0 database
+
 sudo pip-3.2 install -Ur requirements.txt
 
 mkdir -p ~/.ssh
