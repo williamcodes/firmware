@@ -36,4 +36,3 @@ EOF
 sudo chattr +i /etc/resolv.conf
 
 sudo ln -s $PWD/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
-sudo supervisorctl reload
