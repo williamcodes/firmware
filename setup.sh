@@ -1,14 +1,14 @@
-if [ "$PWD" != "/home/pi/firmware" ]
-then echo This file must be located in /home/pi/firmware
-     exit
+if [ "$PWD" != "/home/pi/firmware" ]; then
+    echo This file must be located in /home/pi/firmware
+    exit
 fi
 
 read -p "Have you already run raspi-config? [yN]" yn
-if [ "$yn" != "y" ]
-then read -p $'Configure options 1, 2, 4 > Locale, 4 > Change Timezone, and 8 > Serial > Off.\nPress enter to begin.'
-     sudo raspi-config
-     sudo reboot
-     exit
+if [ "$yn" != "y" ]; then
+    read -p $'Configure options 1, 2, 4 > Locale, 4 > Change Timezone, and 8 > Serial > Off.\nPress enter to begin.'
+    sudo raspi-config
+    sudo reboot
+    exit
 fi
 
 set -ex
@@ -24,7 +24,7 @@ sudo pip-3.2 install -Ur requirements.txt
 mkdir -p ~/.ssh
 cat conf/relay_rsa.pub >> ~/.ssh/authorized_keys
 
-sudo ssh-keygen # TODO how to statically build this in to Heat Seek OS without compromising relay server?
+sudo ssh-keygen  # TODO how to statically build this in to Heat Seek OS without compromising relay server?
 sudo ssh-copy-id hubs@relay.heatseeknyc.com
 
 sudo ln -sf $PWD/conf/wvdial.conf /etc/
