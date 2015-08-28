@@ -11,14 +11,16 @@ logging.basicConfig(level=logging.INFO)
 
 READINGS_URI = 'http://relay.heatseeknyc.com/readings'
 
-def transmit(db, xbee_id):
-    for reading_id, cell_id, timestamp, temperature in db.get_untransmitted_readings():
+def transmit(db):
+    for row in db.get_unrelayed_temperatures():
+        id, xbee_id, cell_id, temperature, sleep_period, timestamp = row
+        xbee_id = common.hexlify(xbee_id)
         cell_id = common.hexlify(cell_id)
-        data = dict(hub=xbee_id, cell=cell_id, time=timestamp, temp=temperature)
+        data = dict(hub=xbee_id, cell=cell_id, temp=temperature, sp=sleep_period, time=timestamp)
         logging.info(data)
         response = requests.post(READINGS_URI, data)
-        if response.status_code != 200: raise Exception('bad response: {}'.format(response))
-        db.set_transmitted_readings(reading_id)
+        if response.status_code == 200: db.set_relayed_temperature(id)
+        else: logging.error('bad response: %s', response)
         time.sleep(1)
 
 @common.main
@@ -26,14 +28,6 @@ def transmit(db, xbee_id):
 def main():
     with database.Database() as db:
         logging.info('connected to database.')
-
         while True:
-            xbee_id = db.get_xbee_id()
-            if xbee_id: break
-            logging.warn('waiting for xbee id to appear in db...')
-            time.sleep(1)
-        xbee_id = common.hexlify(xbee_id)
-
-        while True:
-            transmit(db, xbee_id)
+            transmit(db)
             time.sleep(1)

@@ -1,6 +1,14 @@
 
-create table readings (cell_id, time, temperature);
+create table temperatures (
+       xbee_id,
+       cell_id not null,
+       temperature not null,
+       sleep_period,
+       time not null default (strftime('%s', 'now')),
+       relayed_time
+);
 
-create table transmitted as select 0 as reading_id;
-
-create table xbee_id as select null as high, null as low;
+create table status as select
+       null as xbee_id_high,
+       null as xbee_id_low,
+       null as sleep_period;

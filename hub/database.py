@@ -1,4 +1,3 @@
-import time
 
 import sqlite3
 
@@ -17,34 +16,44 @@ class _Database:
     def __init__(self, db):
         self.db = db
 
-    def insert_reading(self, cell_id, temperature):
+    def insert_temperature(self, xbee_id, cell_id, temperature, sleep_period):
         with self.db as db:
-            db.execute('insert into readings values (?, ?, ?)',
-                       (cell_id, round(time.time()), temperature))
+            db.execute('insert into temperatures (xbee_id, cell_id, temperature, sleep_period)'
+                       ' values (?, ?, ?, ?)', (xbee_id, cell_id, temperature, sleep_period))
 
-    def get_untransmitted_readings(self):
+    def get_unrelayed_temperatures(self):
         with self.db as db:
-            (reading_id,), = db.execute('select reading_id from transmitted')
-            return db.execute('select rowid, * from readings where rowid > ?', (reading_id,))
+            return db.execute('select rowid, xbee_id, cell_id, temperature, sleep_period, time'
+                              ' from temperatures where relayed_time is null')
 
-    def set_transmitted_readings(self, reading_id):
+    def set_relayed_temperature(self, id):
         with self.db as db:
-            db.execute('update transmitted set reading_id = ?', (reading_id,))
+            db.execute('update temperatures set relayed_time = strftime("%s", "now")'
+                       ' where rowid = ?', (id,))
 
     def get_xbee_id(self):
         with self.db as db:
-            (high, low), = db.execute('select high, low from xbee_id')
+            (high, low), = db.execute('select xbee_id_high, xbee_id_low from status')
         if high and low:
-            return high + low
+            return high + low  # concatenate byte strings
 
     def unset_xbee_id(self):
         with self.db as db:
-            db.execute('update xbee_id set high = null, low = null')
+            db.execute('update status set xbee_id_high = null, xbee_id_low = null')
 
     def set_xbee_id_high(self, high):
         with self.db as db:
-            db.execute('update xbee_id set high = ?', (high,))
+            db.execute('update status set xbee_id_high = ?', (high,))
 
     def set_xbee_id_low(self, low):
         with self.db as db:
-            db.execute('update xbee_id set low = ?', (low,))
+            db.execute('update status set xbee_id_low = ?', (low,))
+
+    def get_sleep_period(self):
+        with self.db as db:
+            (sleep_period,), = db.execute('select sleep_period from status')
+        return sleep_period
+
+    def set_sleep_period(self, sleep_period):
+        with self.db as db:
+            db.execute('update status set sleep_period = ?', (sleep_period,))

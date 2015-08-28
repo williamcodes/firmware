@@ -56,10 +56,11 @@ def listen(xbee, db):
                      .format(cell_id, adc, voltage, celsius, fahrenheit))
 
         # our resolution ends up being about 0.6°F, so we round to 1 decimal place:
-        db.insert_reading(cell_id, round(fahrenheit, 1))
+        db.insert_temperature(db.get_xbee_id(), cell_id, round(fahrenheit, 1), db.get_sleep_period())
 
     else:
         logging.warn('unexpected frame type {:02X}'.format(frame[0]))
+
 
 @common.main
 @common.forever
