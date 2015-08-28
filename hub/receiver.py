@@ -14,7 +14,7 @@ INT = Struct('>I') # big endian unsigned int
 
 def listen(xbee, db):
     while xbee.read(1) != b'\x7E':
-        logging.warn('expected frame start byte 0x7E but got {:02X}'.format(frame_start))
+        logging.warn('expected frame start byte 0x7E')
 
     length, = SHORT.unpack(xbee.read(2))
 
