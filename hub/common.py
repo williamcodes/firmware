@@ -7,12 +7,6 @@ import time
 def hexlify(bites):
     return binascii.hexlify(bites).decode('ascii')
 
-def checksum(frame):
-    s = 0
-    for byte in frame:
-        s = (s + byte) & 0xFF
-    return s
-
 def forever(f):
     @functools.wraps(f)
     def g(*args, **kwargs):
