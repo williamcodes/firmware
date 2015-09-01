@@ -28,7 +28,7 @@ while true; do
     # TODO this should be a PUT or PATCH to /hubs/$xbee_id
     data="hub=$xbee_id&pi=$pi_id&sp=$sleep_period&port=$port"
     echo "posting $data"
-    if curl -sS -d "$data" http://relay.heatseeknyc.com/hubs; then
+    if curl --silent --show-error --fail -d"$data" http://relay.heatseeknyc.com/hubs; then
         echo  # server response often has no newline
 	old_port="$port"
     else
