@@ -16,14 +16,14 @@ class _Database:
     def __init__(self, db):
         self.db = db
 
-    def insert_temperature(self, xbee_id, cell_id, temperature, sleep_period):
+    def insert_temperature(self, cell_id, temperature, sleep_period):
         with self.db as db:
-            db.execute('insert into temperatures (xbee_id, cell_id, temperature, sleep_period)'
-                       ' values (?, ?, ?, ?)', (xbee_id, cell_id, temperature, sleep_period))
+            db.execute('insert into temperatures (cell_id, temperature, sleep_period)'
+                       ' values (?, ?, ?)', (cell_id, temperature, sleep_period))
 
     def get_unrelayed_temperatures(self):
         with self.db as db:
-            return db.execute('select rowid, xbee_id, cell_id, temperature, sleep_period, time'
+            return db.execute('select rowid, cell_id, temperature, sleep_period, time'
                               ' from temperatures where relayed_time is null')
 
     def set_relayed_temperature(self, id):
@@ -36,10 +36,6 @@ class _Database:
             (high, low), = db.execute('select xbee_id_high, xbee_id_low from status')
         if high and low:
             return high + low  # concatenate byte strings
-
-    def unset_xbee_id(self):
-        with self.db as db:
-            db.execute('update status set xbee_id_high = null, xbee_id_low = null')
 
     def set_xbee_id_high(self, high):
         with self.db as db:
