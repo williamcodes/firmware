@@ -13,10 +13,10 @@ def listen(xb, db):
         b, = xb.read(1)
         if b == xbee.START: break
         logging.warn('expected start byte 0x%02X but got 0x%02X', xbee.START, b)
-
-    length, = xbee.SHORT.unpack(xb.read(2))
+    length = xbee.int_from_bytes(xb.read(2))
     frame = xb.read(length)
     checksum, = xb.read(1)
+
     if xbee.checksum(frame) + checksum != 0xFF:
         raise Exception('frame checksum 0x%02X does not complement 0x%02X', xbee.checksum(frame), checksum)
 
@@ -45,7 +45,7 @@ def listen(xb, db):
         if len(frame) != 18:
             raise Exception('expected Rx frame with one sample to be 18 bytes, but was {}'.format(len(frame)))
         cell_id = frame[1:9]
-        adc, = xbee.SHORT.unpack(frame[16:18])
+        adc = xbee.int_from_bytes(frame[16:18])
 
         voltage = adc / 0x3FF * 3.3 # on Xbee, 0x3FF (highest value on a 10-bit ADC) corresponds to 3.3V...ish
         celsius = (voltage - 0.5) / 0.01 # on MCP9700A, 0.5V is 0°C, and every 0.01V difference is 1°C difference
