@@ -11,28 +11,27 @@ pi_id=$(awk '/^Serial\t/ { print $3 }' /proc/cpuinfo)
 echo "π id is $pi_id"
 
 python3 -m hub.request_sleep_period  # refresh db for good measure
+sleep 3
 
 while true; do
-    for _ in $(seq 10); do  # watch for new tunnel port every minute for up to 10 minutes
+    for _ in $(seq 60); do  # check for new settings every 10 seconds, for up to 10 minutes
+        sleep_period=$(python3 -m hub.get_sleep_period)
         port=$(supervisorctl tail ssh | awk '/^Allocated port / { print $3 }' | tail -1)
-	if [ "$port" != "$old_port" ]; then
-            echo "port changed to $port from $old_port"
-	    break
-	fi
-	sleep 60
+        [[ "$sleep_period" != "$old_sleep_period" || "$port" != "$old_port" ]] && break
+        sleep 10
     done
-    # port has changed or 10 minutes have passed, so time to send a heartbeat:
+    # settings have changed or 10 minutes have passed, so time to send a heartbeat:
 
-    sleep_period=$(python3 -m hub.get_sleep_period)
     # TODO also send $(vnstat -i ppp0 --oneline)
     # TODO this should be a PUT or PATCH to /hubs/$xbee_id
     data="hub=$xbee_id&pi=$pi_id&sp=$sleep_period&port=$port"
     echo "posting $data"
     if curl --silent --show-error --fail -d"$data" http://relay.heatseeknyc.com/hubs; then
         echo  # server response often has no newline
-	old_port="$port"
+        old_port="$port"
+        old_sleep_period="$sleep_period"
     else
-	echo 'failed to post. waiting to retry...'
-        sleep 60
+        echo 'failed to post. waiting to retry...'
+        sleep 10
     fi
 done
