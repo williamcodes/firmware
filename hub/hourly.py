@@ -19,3 +19,4 @@ def main():
         send(xbee.frame(b'\x08xSP\x05\x7A\x58'), xb)
         send(xbee.frame(b'\x08xWR'), xb)
 
+        send(xbee.frame(b'\x08xSP'), xb)  # read new value into db

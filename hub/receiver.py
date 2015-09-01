@@ -37,6 +37,10 @@ def listen(xb, db):
                 raise Exception('AT{} data should be 4 bytes, but was {}'.format(command, len(data)))
             if command == 'SH': db.set_xbee_id_high(data)
             else: db.set_xbee_id_low(data)
+        elif command == 'SP':
+            if len(data) != 4:
+                raise Exception('ATSP data should be 4 bytes, but was {}'.format(len(data)))
+            db.set_sleep_period(xbee.int_from_bytes(data))
         else:
             logging.info('unhandled AT%s response', command)
 
