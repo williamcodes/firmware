@@ -6,7 +6,7 @@ from . import common, xbee
 
 
 def send(frame, xb):
-    print('sending {:r}'.format(frame))
+    print('sending {}'.format(frame))
     xb.write(frame)
     print('sent')
 

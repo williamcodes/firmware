@@ -12,52 +12,53 @@ def listen(xb, db):
     while True:  # read until start byte
         b, = xb.read(1)
         if b == xbee.START: break
-        logging.warn('expected start byte but got %r', b)
+        logging.warn('expected start byte 0x%02X but got 0x%02X', xbee.START, b)
 
     length, = xbee.SHORT.unpack(xb.read(2))
+    frame = xb.read(length)
+    checksum, = xb.read(1)
+    if xbee.checksum(frame) + checksum != 0xFF:
+        raise Exception('frame checksum 0x%02X does not complement 0x%02X', xbee.checksum(frame), checksum)
 
-    frame = xb.read(length + 1) # frame plus checksum byte
+    frame_type = frame[0]
 
-    checksum = xbee.checksum(frame)
-    if checksum != 0xFF:
-        raise Exception('expected frame plus checksum to be 0xFF but got {:02X}'.format(checksum))
-
-    if frame[0] == 0x88: # AT Command Response
-        command = frame[2:2+2]
+    if frame_type == 0x88: # AT Command Response
+        command = frame[2:4]
         status = frame[4]
-        data = frame[5:length]
+        data = frame[5:]
+
+        try: command = command.decode('ascii')
+        except UnicodeDecodeError: pass
 
         if status != 0:
-            logging.warn('AT{} failed with status {}'.format(command, status))
-        elif command in (b'SH', b'SL'):
+            logging.warn('AT%s failed with status %d', command, status)
+        elif command in ('SH', 'SL'):
             if len(data) != 4:
-                raise Exception('AT{} response should be 4 bytes, but was {}'
-                                .format(command, repr(data)))
-            if command == b'SH': db.set_xbee_id_high(data)
+                raise Exception('AT{} data should be 4 bytes, but was {}'.format(command, len(data)))
+            if command == 'SH': db.set_xbee_id_high(data)
             else: db.set_xbee_id_low(data)
         else:
-            logging.info('unhandled AT{} response'.format(command))
+            logging.info('unhandled AT%s response', command)
 
-    elif frame[0] == 0x92: # Data Sample Rx Indicator
+    elif frame_type == 0x92: # Data Sample Rx Indicator
         # TODO properly handle digital and analog masks
-        if length != 18:
-            raise Exception('expected length of 18 for 0x92 frame with one sample, but got {}'
-                            .format(length))
-        cell_id = frame[1:1+8]
-        adc, = xbee.SHORT.unpack(frame[16:16+2])
+        if len(frame) != 18:
+            raise Exception('expected Rx frame with one sample to be 18 bytes, but was {}'.format(len(frame)))
+        cell_id = frame[1:9]
+        adc, = xbee.SHORT.unpack(frame[16:18])
 
         voltage = adc / 0x3FF * 3.3 # on Xbee, 0x3FF (highest value on a 10-bit ADC) corresponds to 3.3V...ish
         celsius = (voltage - 0.5) / 0.01 # on MCP9700A, 0.5V is 0°C, and every 0.01V difference is 1°C difference
         fahrenheit = celsius * (212 - 32) / 100 + 32
 
-        logging.info('cell_id={} adc=0x{:x} voltage={:.2f} celsius={:.2f} fahrenheit={:.2f}'
-                     .format(cell_id, adc, voltage, celsius, fahrenheit))
+        logging.info('cell_id=%s adc=0x%x voltage=%.2f celsius=%.2f fahrenheit=%.2f',
+                     cell_id, adc, voltage, celsius, fahrenheit)
 
         # our resolution ends up being about 0.6°F, so we round to 1 decimal place:
         db.insert_temperature(cell_id, round(fahrenheit, 1), db.get_sleep_period())
 
     else:
-        logging.warn('unexpected frame type {:02X}'.format(frame[0]))
+        logging.info('unhandled frame type 0x%02X', frame_type)
 
 
 @common.main
