@@ -21,13 +21,12 @@ while true; do
 	fi
 	sleep 60
     done
+    # port has changed or 10 minutes have passed, so time to send a heartbeat:
 
     sleep_period=$(python3 -m hub.get_sleep_period)
     # TODO also send $(vnstat -i ppp0 --oneline)
-
-    # port has changed or 10 minutes have passed, so time to send a heartbeat:
     # TODO this should be a PUT or PATCH to /hubs/$xbee_id
-    data="hub=$xbee_id&pi=$pi_id&port=$port&sp=$sleep_period"
+    data="hub=$xbee_id&pi=$pi_id&sp=$sleep_period&port=$port"
     echo "posting $data"
     if curl -sS -d "$data" http://relay.heatseeknyc.com/hubs; then
         echo  # server response often has no newline
