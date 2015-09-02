@@ -10,9 +10,9 @@ logging.basicConfig(level=logging.INFO)
 
 def listen(xb, db):
     while True:  # read until start byte
-        b, = xb.read(1)
+        b = xb.read(1)
         if b == xbee.START: break
-        logging.warn('expected start byte 0x%02X but got 0x%02X', xbee.START, b)
+        logging.warn('expected start byte %s but got %s', xbee.START, b)
     length = xbee.int_from_bytes(xb.read(2))
     frame = xb.read(length)
     checksum, = xb.read(1)

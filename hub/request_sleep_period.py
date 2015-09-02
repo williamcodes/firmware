@@ -14,4 +14,4 @@ def send(frame, xb):
 def main():
     with serial.Serial('/dev/ttyAMA0') as xb:
         logging.info('connected to xbee.')
-        send(xbee.frame(b'\x08xSP'), xb)
+        send(xbee.at_frame('SP'), xb)

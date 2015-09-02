@@ -23,13 +23,13 @@ def main():
 
         # 'aggregate' all cells in default broadcast mode to point to us instead:
         # TODO do this more than once?
-        send(xbee.frame(b'\x08xAG\xFF\xFF'), xb)
+        send(xbee.at_frame('AG', b'\xFF\xFF'), xb)
         time.sleep(0.1)
 
         # set sleep period, and write changes to persistent flash
-        send(xbee.frame(b'\x08xSP' + xbee.int_to_bytes(args.sleep_period, 4)), xb)
+        send(xbee.at_frame('SP', xbee.int_to_bytes(args.sleep_period, 4)), xb)
         time.sleep(0.1)
-        send(xbee.frame(b'\x08xWR'), xb)
+        send(xbee.at_frame('WR'), xb)
         time.sleep(0.1)
 
-        send(xbee.frame(b'\x08xSP'), xb)  # read new sleep period into db
+        send(xbee.at_frame('SP'), xb)  # read new sleep period into db

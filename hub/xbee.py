@@ -1,12 +1,13 @@
 
-START = 0x7E
 BYTEORDER = 'big'
-
+START = b'\x7E'
+AT_TYPE = b'\x08'
+DUMMY_ID = b'x'
 
 def checksum(bites):
     s = 0
-    for byte in bites:
-        s = (s + byte) & 0xFF
+    for bite in bites:
+        s = (s + bite) & 0xFF
     return s
 
 def int_from_bytes(bites):
@@ -15,8 +16,17 @@ def int_from_bytes(bites):
 def int_to_bytes(n, length):
     return n.to_bytes(length, byteorder=BYTEORDER)
 
-def frame(command):
-    return (bytes((START,))
-            + int_to_bytes(len(command), 2)
-            + command
-            + bytes((0xFF - checksum(command),)))
+def byte(b):
+    return bytes((b,))
+
+def frame(body):
+    return (START
+            + int_to_bytes(len(body), 2)
+            + body
+            + byte(0xFF - checksum(body)))
+
+def at_frame(command, data=b''):
+    return frame(AT_TYPE
+                 + DUMMY_ID
+                 + command.encode('ascii')
+                 + data)
