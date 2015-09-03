@@ -31,6 +31,7 @@ def main():
             if xbee_id: break
             logging.warn('waiting for xbee id to appear in db...')
             time.sleep(1)
+        xbee_id = common.hexlify(xbee_id)
 
         while True:
             transmit(db, xbee_id)
