@@ -68,7 +68,6 @@ def listen(xb, db):
 
 
 @common.main
-@common.forever
 def main():
     with serial.Serial('/dev/ttyAMA0') as xb, database.Database() as db:
         logging.info('connected to xbee and database.')

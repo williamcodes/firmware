@@ -21,7 +21,6 @@ def transmit(db, xbee_id):
         time.sleep(1)
 
 @common.main
-@common.forever
 def main():
     with database.Database() as db:
         logging.info('connected to database.')
