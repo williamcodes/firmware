@@ -21,6 +21,8 @@ sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat
 
 sudo pip-3.2 install -Ur requirements.txt
 
+# TODO set up heatseeknyc.db using schema.sql, either by installing sqlite3 command or via python
+
 mkdir -p ~/.ssh
 cat conf/relay_rsa.pub >> ~/.ssh/authorized_keys
 
