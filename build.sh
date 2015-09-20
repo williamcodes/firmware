@@ -16,7 +16,8 @@ set -ex
 sudo apt-get update
 sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat
 
-sudo vnstat -u -i ppp0  # start vnstat listening on ppp0 database
+# TODO this doesn't work during setup without a modem
+# sudo vnstat -u -i ppp0  # start vnstat listening on ppp0 database
 
 sudo pip-3.2 install -Ur requirements.txt
 
