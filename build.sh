@@ -5,7 +5,7 @@ fi
 
 read -p "Have you already run raspi-config? [yN]" yn
 if [ "$yn" != "y" ]; then
-    read -p $'Configure options 1, 2, 4 > Locale, 4 > Change Timezone, and 8 > Serial > Off.\nPress enter to begin.'
+    read -p $'Configure options 2, 4 > Locale, 4 > Change Timezone, and 8 > Serial > No.\nDo not do option 1.\nPress enter to begin.'
     sudo raspi-config
     sudo reboot
     exit
@@ -36,3 +36,6 @@ EOF
 sudo chattr +i /etc/resolv.conf
 
 sudo ln -s $PWD/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
+
+read -p $'Configure option 1.\nDo not reboot!\nPress enter to begin.'
+sudo raspi-config
