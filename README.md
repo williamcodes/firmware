@@ -1,3 +1,29 @@
+# Installing ("flashing") firmware
+
+## Raspberry π ("Heat Seek OS")
+1. Get `heatseekos.img` _TODO put it in Google Drive_
+1. Insert an SD card into your computer or a USB card reader, potentially with an adapter to make it fit.
+1. Once you see the disk appear in Finder, go to Terminal.
+1. Run `diskutil unmountDisk /dev/disk2`
+1. Run `sudo dd bs=1m if=heatseekos.img of=/dev/disk2`
+1. Wait about 25 minutes.
+1. After the command finishes, go to Finder and eject the "boot" disk.
+1. Remove the SD card and stick it in a π!
+
+## XBee
+1. Download and install [FTDI VCP drivers](http://www.ftdichip.com/Drivers/VCP.htm) for the [XBee dongle](https://www.sparkfun.com/products/11697).
+1. Download and install [XCTU](http://www.digi.com/products/xbee-rf-solutions/xctu-software/xctu)
+1. Put an XBee in the dongle and insert ehd ongle into your computer.
+1. Open XCTU, click the top left "+" button to add the XBee.
+1. Choose the device with a name like "ttyusbserial…"
+1. Once the XBee has been added, click on it, and the click on the button with a person's outline on it, aka "Profile", and choose one of the following files:
+  - [hub-pro.xml](https://raw.githubusercontent.com/heatseeknyc/firmware/master/xctung/hub-pro.xml) for a hub's XBee Pro
+  - [cell-pro.xml](https://raw.githubusercontent.com/heatseeknyc/firmware/master/xctung/cell-pro.xml) for a cell's XBee Pro
+  - [cell.xml](https://raw.githubusercontent.com/heatseeknyc/firmware/master/xctung/cell.xml) for a cell's regular XBee
+1. If prompted, agree to update the firmware.
+1. After everything is done click the pencil button, aka "Write", to write the changes.
+1. Click the X button on the XBee to remove it from XCTU, and then remove the USB dongle.
+
 # How to set up a hub from scratch
 
 ## Ingredients
