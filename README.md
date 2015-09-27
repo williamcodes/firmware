@@ -15,7 +15,7 @@
 1. Download and install [XCTU](http://www.digi.com/products/xbee-rf-solutions/xctu-software/xctu)
 1. Put an XBee in the dongle and insert ehd ongle into your computer.
 1. Open XCTU, click the top left "+" button to add the XBee.
-1. Choose the device with a name like "ttyusbserial…"
+1. Choose the device with a name like "usbserial-…"
 1. Once the XBee has been added, click on it, and the click on the button with a person's outline on it, aka "Profile", and choose one of the following files:
   - [hub-pro.xml](https://raw.githubusercontent.com/heatseeknyc/firmware/master/xctung/hub-pro.xml) for a hub's XBee Pro
   - [cell-pro.xml](https://raw.githubusercontent.com/heatseeknyc/firmware/master/xctung/cell-pro.xml) for a cell's XBee Pro
