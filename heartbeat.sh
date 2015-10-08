@@ -23,10 +23,10 @@ while true; do
     # settings have changed or 10 minutes have passed, so time to send a heartbeat:
 
     # TODO also send $(vnstat -i ppp0 --oneline)
-    # TODO this should be a PUT or PATCH to /hubs/$xbee_id
-    data="hub=$xbee_id&pi=$pi_id&sp=$sleep_period&port=$port"
-    echo "posting $data"
-    if curl --silent --show-error --fail -d"$data" http://relay.heatseeknyc.com/hubs; then
+    data="pi=$pi_id&sp=$sleep_period&port=$port"
+    url="http://relay.heatseeknyc.com/hubs/$xbee_id"
+    echo "putting $data at $url"
+    if curl --silent --show-error --fail --request PUT --data "$data" "$url"; then
         echo  # server response often has no newline
         old_port="$port"
         old_sleep_period="$sleep_period"
