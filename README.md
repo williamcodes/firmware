@@ -12,6 +12,7 @@
 
 ## XBee
 1. Download and install [FTDI VCP drivers](http://www.ftdichip.com/Drivers/VCP.htm) for the [XBee dongle](https://www.sparkfun.com/products/11697).
+1. Restart your computer, or things will misbehave.
 1. Download and install [XCTU](http://www.digi.com/products/xbee-rf-solutions/xctu-software/xctu)
 1. Put an XBee in the dongle and insert ehd ongle into your computer.
 1. Open XCTU, click the top left "+" button to add the XBee.
