@@ -1,11 +1,11 @@
 # Installing ("flashing") firmware
 
 ## Raspberry π ("Heat Seek OS")
-1. Get `heatseekos.img` _TODO put it in Google Drive_
+1. Place `heatseekos.img` on your Desktop _TODO put it in Google Drive_
 1. Insert an SD card into your computer or a USB card reader, potentially with an adapter to make it fit.
 1. Once you see the disk appear in Finder, go to Terminal.
 1. Run `diskutil unmountDisk /dev/disk2`
-1. Run `sudo dd bs=1m if=heatseekos.img of=/dev/disk2`
+1. Run `sudo dd bs=1m if=~/Desktop/heatseekos.img of=/dev/disk2`
 1. Wait about 25 minutes.
 1. After the command finishes, go to Finder and eject the "boot" disk.
 1. Remove the SD card and stick it in a π!
