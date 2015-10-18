@@ -2,6 +2,7 @@ if [ "$PWD" != "/home/pi/firmware" ]; then
     echo This file must be located in /home/pi/firmware
     exit
 fi
+git checkout master  # don't use dev branch in production
 
 read -p "Have you already run raspi-config? [yN]" yn
 if [ "$yn" != "y" ]; then
