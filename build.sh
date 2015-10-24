@@ -27,7 +27,10 @@ sudo pip-3.2 install -Ur requirements.txt
 mkdir -p ~/.ssh
 cat conf/relay_rsa.pub >> ~/.ssh/authorized_keys
 
-sudo ssh-keygen  # TODO how to statically build this in to Heat Seek OS without compromising relay server?
+# allow passwordless ssh into the relay server to establish the reverse tunnel:
+# TODO how to statically build this in to Heat Seek OS without compromising relay server? password during setup?
+# TODO just copy a static key pair at this point, with corresponding pair built into the relay's sshd container
+sudo ssh-keygen
 sudo ssh-copy-id hubs@relay.heatseeknyc.com
 
 sudo ln -sf $PWD/conf/wvdial.conf /etc/
