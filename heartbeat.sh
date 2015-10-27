@@ -23,7 +23,10 @@ while true; do
     # settings have changed or 10 minutes have passed, so time to send a heartbeat:
 
     # TODO also send $(vnstat -i ppp0 --oneline)
-    data="pi=$pi_id&sp=$sleep_period&port=$port"
+    # TODO also send disk usage
+    # TODO also send uptime
+    version=$(git describe --tags --always)
+    data="pi=$pi_id&v=$version&sp=$sleep_period&port=$port"
     url="http://relay.heatseeknyc.com/hubs/$xbee_id"
     echo "putting $data at $url"
     if curl --silent --show-error --fail --request PUT --data "$data" "$url"; then
