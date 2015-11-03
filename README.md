@@ -25,6 +25,12 @@
 1. After everything is done click the pencil button, aka "Write", to write the changes.
 1. Click the X button on the XBee to remove it from XCTU, and then remove the USB dongle.
 
+# Updating a Running Hub
+
+    cd firmware
+    git pull
+    sudo supervisorctl reload
+
 # How to set up a hub from scratch
 
 ## Ingredients
