@@ -8,3 +8,10 @@ while true; do
             elif (( ++failures % 10  == 0 )); then  # every 10 minutes
                 echo "$failures failures, killing wvdial."
                 killall wvdial
+            fi
+        fi
+    else
+        failures=0  # all is well
+    fi
+    sleep 60
+done
